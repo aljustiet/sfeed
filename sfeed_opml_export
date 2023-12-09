@@ -7,16 +7,16 @@ loadconfig() {
 	if [ "$1" != "" ]; then
 		# get absolute path of config file required for including.
 		config="$1"
-		path=$(readlink -f "${config}" 2>/dev/null)
+		configpath=$(readlink -f "${config}" 2>/dev/null)
 	else
 		# default config location.
 		config="$HOME/.sfeed/sfeedrc"
-		path="${config}"
+		configpath="${config}"
 	fi
 
 	# config is loaded here to be able to override $sfeedpath or functions.
-	if [ -r "${path}" ]; then
-		. "${path}"
+	if [ -r "${configpath}" ]; then
+		. "${configpath}"
 	else
 		printf "Configuration file \"%s\" cannot be read.\n" "${config}" >&2
 		echo "See the sfeedrc.example file or the sfeedrc(5) man page for an example." >&2
