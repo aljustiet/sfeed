@@ -108,7 +108,8 @@ Optional dependencies
 - POSIX sh(1),
   used by sfeed_update(1) and sfeed_opml_export(1).
 - POSIX utilities such as awk(1) and sort(1),
-  used by sfeed_content(1), sfeed_markread(1) and sfeed_update(1).
+  used by sfeed_content(1), sfeed_markread(1), sfeed_opml_export(1) and
+  sfeed_update(1).
 - curl(1) binary: https://curl.haxx.se/ ,
   used by sfeed_update(1), but can be replaced with any tool like wget(1),
   OpenBSD ftp(1) or hurl(1): https://git.codemadness.org/hurl/
