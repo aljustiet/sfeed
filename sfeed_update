@@ -29,7 +29,7 @@ loadconfig() {
 	else
 		printf "Configuration file \"%s\" cannot be read.\n" "${config}" >&2
 		echo "See the sfeedrc.example file or the sfeedrc(5) man page for an example." >&2
-		exit 1
+		die
 	fi
 }
 
@@ -178,6 +178,14 @@ cleanup() {
 	rm -rf "${sfeedtmpdir}"
 }
 
+# die(statuscode)
+die() {
+	statuscode="${1:-1}" # default: exit 1
+	# cleanup temporary files etc.
+	cleanup
+	exit "${statuscode}"
+}
+
 sighandler() {
 	signo="$1"
 	# ignore TERM signal for myself.
@@ -189,6 +197,7 @@ sighandler() {
 feeds() {
 	printf "Configuration file \"%s\" is invalid or does not contain a \"feeds\" function.\n" "${config}" >&2
 	echo "See sfeedrc.example for an example." >&2
+	die
 }
 
 main() {
@@ -203,9 +212,9 @@ main() {
 	# load config file.
 	loadconfig "$1"
 	# fetch feeds and store in temporary directory.
-	sfeedtmpdir="$(mktemp -d '/tmp/sfeed_XXXXXX')" || exit 1
+	sfeedtmpdir="$(mktemp -p "${TMPDIR:-/tmp}" -d 'sfeed_XXXXXX')" || die
 	mkdir -p "${sfeedtmpdir}/feeds"
-	touch "${sfeedtmpdir}/ok" || exit 1
+	touch "${sfeedtmpdir}/ok" || die
 	# make sure path exists.
 	mkdir -p "${sfeedpath}"
 	# fetch feeds specified in config file.
@@ -215,11 +224,9 @@ main() {
 	# check error exit status indicator for parallel jobs.
 	[ -f "${sfeedtmpdir}/ok" ]
 	statuscode=$?
-	# cleanup temporary files etc.
-	cleanup
 	# on signal SIGINT and SIGTERM exit with signal number + 128.
-	[ ${signo} -ne 0 ] && exit $((signo+128))
-	exit ${statuscode}
+	[ ${signo} -ne 0 ] && die $((signo+128))
+	die ${statuscode}
 }
 
 [ "${SFEED_UPDATE_INCLUDE}" = "1" ] || main "$@"
