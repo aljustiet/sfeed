@@ -212,7 +212,7 @@ main() {
 	# load config file.
 	loadconfig "$1"
 	# fetch feeds and store in temporary directory.
-	sfeedtmpdir="$(mktemp -p "${TMPDIR:-/tmp}" -d 'sfeed_XXXXXX')" || die
+	sfeedtmpdir="$(mktemp -d "${TMPDIR:-/tmp}/sfeed_XXXXXX")" || die
 	mkdir -p "${sfeedtmpdir}/feeds"
 	touch "${sfeedtmpdir}/ok" || die
 	# make sure path exists.
