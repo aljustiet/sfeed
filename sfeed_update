@@ -7,7 +7,7 @@ sfeedpath="$HOME/.sfeed/feeds"
 
 # used for processing feeds concurrently: wait until ${maxjobs} amount of
 # feeds are finished at a time.
-maxjobs=8
+maxjobs=16
 
 # load config (evaluate shellscript).
 # loadconfig(configfile)
