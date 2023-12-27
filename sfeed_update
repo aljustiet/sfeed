@@ -85,7 +85,7 @@ merge() {
 # order by timestamp (descending).
 # order(name, url)
 order() {
-	sort -t '	' -k1rn,1
+	sort -t '	' -k1rn,1 2>/dev/null
 }
 
 # internal handler to fetch and process a feed.
