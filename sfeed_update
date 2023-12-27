@@ -216,7 +216,7 @@ main() {
 
 	# print feeds for parallel processing with xargs.
 	feeds > "${sfeedtmpdir}/jobs" || die
-	SFEED_UPDATE_CHILD="1" xargs -s 65535 -x -0 -P "${maxjobs}" -n 1 \
+	SFEED_UPDATE_CHILD="1" xargs -x -0 -P "${maxjobs}" -n 1 \
 		"$(readlink -f "${argv0}")" < "${sfeedtmpdir}/jobs"
 	statuscode=$?
 
