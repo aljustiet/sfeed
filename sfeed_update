@@ -233,11 +233,11 @@ if [ "${SFEED_UPDATE_CHILD}" = "1" ]; then
 	IFS="" # "\037"
 	[ "$1" = "" ] && exit 0 # must have an argument set
 	printf '%s\n' "$1" | \
-	while read -r config tmpdir name feedurl basesiteurl encoding; do
+	while read -r _config _tmpdir _name _feedurl _basesiteurl _encoding; do
 		# load config file, sets $config.
-		loadconfig "${config}"
-		sfeedtmpdir="${tmpdir}"
-		_feed "${name}" "${feedurl}" "${basesiteurl}" "${encoding}"
+		loadconfig "${_config}"
+		sfeedtmpdir="${_tmpdir}"
+		_feed "${_name}" "${_feedurl}" "${_basesiteurl}" "${_encoding}"
 		exit "$?"
 	done
 	exit 0
