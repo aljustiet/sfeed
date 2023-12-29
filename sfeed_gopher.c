@@ -118,7 +118,7 @@ printfeed(FILE *fpitems, FILE *fpin, struct feed *f)
 int
 main(int argc, char *argv[])
 {
-	struct feed f;
+	struct feed f = { 0 };
 	FILE *fpitems, *fpindex, *fp;
 	char *name, *p;
 	int i;
