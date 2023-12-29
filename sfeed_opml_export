@@ -15,7 +15,7 @@ loadconfig() {
 	fi
 
 	# config is loaded here to be able to override $sfeedpath or functions.
-	if [ -r "${configpath}" ] && [ ! -d "${configpath}" ]; then
+	if [ -r "${configpath}" ] && [ -f "${configpath}" ]; then
 		. "${configpath}"
 	else
 		printf "Configuration file \"%s\" cannot be read.\n" "${config}" >&2
