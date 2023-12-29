@@ -163,10 +163,10 @@ _feed() {
 # fetch and process a feed in parallel.
 # feed(name, feedurl, [basesiteurl], [encoding])
 feed() {
-	# Job parameters for xargs.
-	# Specify fields as a single parameter separated by the NUL separator.
-	# These fields are split later by the child process, this allows xargs
-	# with empty fields across many implementations.
+	# Output job parameters for xargs.
+	# Specify fields as a single parameter separated by a NUL byte.
+	# The parameter is split into fields later by the child process, this
+	# allows using xargs with empty fields across many implementations.
 	printf '%s\037%s\037%s\037%s\037%s\037%s\0' \
 		"${config}" "${sfeedtmpdir}" "$1" "$2" "$3" "$4"
 }
@@ -238,7 +238,6 @@ if [ "${SFEED_UPDATE_CHILD}" = "1" ]; then
 	[ "$1" = "" ] && exit 0 # must have an argument set
 	printf '%s\n' "$1" | \
 	while read -r _config _tmpdir _name _feedurl _basesiteurl _encoding; do
-		# load config file, sets $config.
 		loadconfig "${_config}"
 		sfeedtmpdir="${_tmpdir}"
 		_feed "${_name}" "${_feedurl}" "${_basesiteurl}" "${_encoding}"
@@ -248,5 +247,5 @@ if [ "${SFEED_UPDATE_CHILD}" = "1" ]; then
 fi
 
 # ...else parent mode:
-argv0="$0" # remember $0, in shells like zsh $0 is the function name.
+argv0="$0" # store $0, in the zsh shell $0 is the name of the function.
 [ "${SFEED_UPDATE_INCLUDE}" = "1" ] || main "$@"
