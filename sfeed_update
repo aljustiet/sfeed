@@ -171,6 +171,7 @@ feed() {
 		"${config}" "${sfeedtmpdir}" "$1" "$2" "$3" "$4"
 }
 
+# cleanup()
 cleanup() {
 	# remove temporary directory with feed files.
 	rm -rf "${sfeedtmpdir}"
@@ -184,6 +185,7 @@ die() {
 	exit "${statuscode}"
 }
 
+# sighandler(signo)
 sighandler() {
 	signo="$1"
 	# ignore TERM signal for myself.
@@ -192,12 +194,14 @@ sighandler() {
 	kill -TERM -$$
 }
 
+# feeds()
 feeds() {
 	printf "Configuration file \"%s\" is invalid or does not contain a \"feeds\" function.\n" "${config}" >&2
 	echo "See sfeedrc.example for an example." >&2
 	die
 }
 
+# main(args...)
 main() {
 	# signal number received for parent.
 	signo=0
